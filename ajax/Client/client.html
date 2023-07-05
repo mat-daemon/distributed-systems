@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+    <style>
+        #button_panel{margin: 25px;}
+        #inputs{margin: 25px;}
+        #filter_panel{margin: 25px;}
+		#authors_panel{margin: 25px;}
+        .green{background-color: #58FF3A;}
+    </style>
+</head>
+<body>
+
+    <p>Representation:<p>
+        <label><input type="radio" name="representation" value="json" checked> JSON</label>
+        <label><input type="radio" name="representation" value="xml"> XML</label>
+
+    <br>
+
+    <div id="inputs">
+        <label for="id_input">ID:</label>
+        <input type="text" id="id_input">
+
+        <label for="name_input">Name:</label>
+        <input type="text" id="name_input">
+
+        <label for="age_input">Age:</label>
+        <input type="text" id="age_input">
+
+        <label for="email_input">Email:</label>
+        <input type="text" id="email_input">
+    </div>
+    
+
+
+    <div id="button_panel">
+        <button class="button" data-inputs="id_input" type="button" id="get" onclick="getItem()"> Get </button>
+        <button class="button" data-inputs="id_input, name_input, age_input, email_input" type="button" id="update" onclick="updateItem()"> Update </button>
+        <button class="button" data-inputs="name_input, age_input, email_input" type="button" id="create" onclick="createItem() "> Create </button>
+        <button class="button" data-inputs="id_input" type="button" id="delete" onclick="deleteItem()"> Delete </button>
+        <button type="button" id="get_size" onclick="getSize()"> Get size </button>
+        <button type="button" id="get_all" onclick="getAll()"> Get all </button>
+        <button type="button" id="clear" onclick="cleanList() "> Clear list</button>
+    </div>
+
+    <div id="filter_panel">
+        <button class="button" data-inputs="name_input" type="button" id="filter_name" onclick='filterBy("#name_input", "name")'>Filter by name</button>
+        <button class="button" data-inputs="age_input" type="button" id="filter_age" onclick='filterBy("#age_input", "age")'> Filter by age</button>
+    </div>
+	
+	<div id="authors_panel"><button id="authors" onclick="getAuthors()"> Get authors</button></div>
+
+
+    <ul id="result"></ul>
+
+    <script type="text/javascript"> 
+        var myUrl = "http://10.182.101.87:8081" 
+        var Item = { "id":0, "name":"", "intValue ":0 }
+    </script>
+
+    <script>
+        function getItem() { 
+            var id = $("#id_input").val(); 
+            var representation = $("input[type='radio'][name='representation']:checked").val();
+            console.log(representation);
+            
+            if(id){
+                $.ajax({ 
+                type: "GET", 
+                url: myUrl + "/persons/" + id, 
+                contentType: "application/json; charset=utf-8", 
+                dataType: representation, }) 
+                .done(function(msg) { 
+                    console.log("Getting...");
+                    console.log(msg);
+                    
+                    cleanList();
+                    
+                    if(representation == "xml"){
+                        var obj = $(msg).find("EntityModel");
+                        msg = processXML(obj);
+                    }
+                   
+                    addPerson(msg.id, msg.name, msg.age, msg.email, msg._links);
+                    }) 
+                .fail(function(xhr) {
+                    if (xhr.responseText) {
+                      try {
+                        var err = JSON.parse(xhr.responseText);
+                        alert("Error: " + xhr.status + " - " + err.detail);
+                      } catch (e) {
+                        console.error("Error parsing JSON response:", e);
+                        alert("Unexpected response from the server.");
+                      }
+                    } else {
+                      alert("Error: No response received from the server. Status code: " + xhr.status);
+                    }
+                });
+            }
+            
+        }
+
+
+
+        function deleteItem(){
+            var id = $("#id_input").val();
+            
+            if(id){
+                $.ajax({
+                    type: "DELETE",
+                    url: myUrl + "/persons/" + id, 
+                    contentType: "application/json; charset=utf-8"}) 
+                    .done(function(msg) { 
+                        document.getElementById("result").value=msg.name; 
+                        console.log(msg);
+                        cleanList();
+                        alert("Person with id: "+id+" has been deleted.");
+                        }) 
+                    .fail(function(xhr) {
+                        if (xhr.responseText) {
+                          try {
+                            var err = JSON.parse(xhr.responseText);
+                            alert("Error: " + xhr.status + " - " + err.detail);
+                          } catch (e) {
+                            console.error("Error parsing JSON response:", e);
+                            alert("Unexpected response from the server.");
+                          }
+                        } else {
+                          alert("Error: No response received from the server. Status code: " + xhr.status);
+                        }
+                })
+            }
+        }
+
+        function updateItem() {
+            var representation = $("input[type='radio'][name='representation']:checked").val();
+            console.log(representation);
+            console.log(id);
+
+            var item = Item;
+
+            var id = $("#id_input").val(); 
+            item.id = id;
+            item.name =  $("#name_input").val(); 
+            item.age =  $("#age_input").val(); 
+            item.email =  $("#email_input").val(); 
+
+            if(item.id && item.name && item.age && item.email){
+            $.ajax({ 
+                type: "PUT", 
+                url: myUrl + "/persons/" + id, 
+                data: JSON.stringify(item),
+                contentType: "application/json; charset=utf-8", 
+                dataType: representation, }) 
+                .done(function(msg) { 
+                    console.log("Updating...");
+                    console.log(msg);
+                    cleanList();
+
+                    if(representation == "xml"){
+                        var obj = $(msg).find("EntityModel");
+                        msg = processXML(obj);
+                    }
+
+                    addPerson(msg.id, msg.name, msg.age, msg.email);
+                    }) 
+                .fail(function(xhr) {
+                    if (xhr.responseText) {
+                      try {
+                        var err = JSON.parse(xhr.responseText);
+                        alert("Error: " + xhr.status + " - " + err.detail);
+                      } catch (e) {
+                        console.error("Error parsing JSON response:", e);
+                        alert("Unexpected response from the server.");
+                      }
+                    } else {
+                      alert("Error: No response received from the server. Status code: " + xhr.status);
+                    }
+                });
+            }
+        }
+
+        function createItem() {
+            var representation = $("input[type='radio'][name='representation']:checked").val();
+            var item = Item;
+
+            //var id = $("#id_input").val(); 
+            //item.id = id;
+            item.name =  $("#name_input").val(); 
+            item.age =  $("#age_input").val(); 
+            item.email =  $("#email_input").val(); 
+
+            if(item.name && item.age && item.email){
+            $.ajax({ 
+                type: "POST", 
+                url: myUrl + "/persons", 
+                data: JSON.stringify(item),
+                contentType: "application/json; charset=utf-8", 
+                dataType: representation, }) 
+                .done(function(msg) { 
+                    console.log(msg);
+                    console.log("Creating...");
+                    cleanList();
+
+                    if(representation == "xml"){
+                        var obj = $(msg).find("EntityModel");
+                        msg = processXML(obj);
+                    }
+                    addPerson(msg.id, msg.name, msg.age, msg.email, msg._links);
+                    }) 
+                .fail(function(xhr) {
+                    if (xhr.responseText) {
+                      try {
+                        var err = JSON.parse(xhr.responseText);
+                        alert("Error: " + xhr.status + " - " + err.detail);
+                      } catch (e) {
+                        console.error("Error parsing JSON response:", e);
+                        alert("Unexpected response from the server.");
+                      }
+                    } else {
+                      alert("Error: No response received from the server. Status code: " + xhr.status);
+                    }
+                });
+            }
+        }
+
+        function getAll() { 
+            var representation = $("input[type='radio'][name='representation']:checked").val();
+
+            $.ajax({ 
+                type: "GET", 
+                url: myUrl + "/persons", 
+                contentType: "application/json; charset=utf-8", 
+                dataType: representation, }) 
+                .done(function(msg) {  
+                    var people = [];
+
+                    if(representation == "xml"){
+                        console.log(new XMLSerializer().serializeToString(msg));
+                         people = processXMLCollection(msg);
+                    }
+                    else{
+                        console.log(JSON.stringify(msg));
+                        if('_embedded' in msg)  people = msg._embedded.personList;
+                    }
+                    
+                    cleanList();
+
+                    for(var nr in people){
+                        var person = people[nr];
+                        addPerson(person.id, person.name, person.age, person.email, person._links);
+                    }
+                    
+                    }) 
+                .fail(function(xhr) {
+                    if (xhr.responseText) {
+                      try {
+                        var err = JSON.parse(xhr.responseText);
+                        alert("Error: " + xhr.status + " - " + err.detail);
+                      } catch (e) {
+                        console.error("Error parsing JSON response:", e);
+                        alert("Unexpected response from the server.");
+                      }
+                    } else {
+                      alert("Error: No response received from the server. Status code: " + xhr.status);
+                    }
+                });
+        }
+
+        function filterBy(input_id, parameter_name) { 
+            var representation = $("input[type='radio'][name='representation']:checked").val();
+            var param = $(input_id).val(); ;
+
+            $.ajax({ 
+                type: "GET", 
+                url: myUrl + "/persons/filter/" + parameter_name + "/" + param, 
+                contentType: "application/json; charset=utf-8", 
+                dataType: representation, }) 
+                .done(function(msg) {  
+                    var people = [];
+
+                    if(representation == "xml"){
+                        console.log(new XMLSerializer().serializeToString(msg));
+                         people = processXMLCollection(msg);
+                    }
+                    else{
+                        console.log(JSON.stringify(msg));
+                        if('_embedded' in msg)  people = msg._embedded.personList;
+                    }
+                    
+                    cleanList();
+
+                    for(var nr in people){
+                        var person = people[nr];
+                        addPerson(person.id, person.name, person.age, person.email, person._links);
+                    }
+                    
+                    }) 
+                .fail(function(xhr) {
+                    if (xhr.responseText) {
+                      try {
+                        var err = JSON.parse(xhr.responseText);
+                        alert("Error: " + xhr.status + " - " + err.detail);
+                      } catch (e) {
+                        console.error("Error parsing JSON response:", e);
+                        alert("Unexpected response from the server.");
+                      }
+                    } else {
+                      alert("Error: No response received from the server. Status code: " + xhr.status);
+                    }
+                });
+        }
+
+        function getSize() { 
+            $.ajax({ 
+                type: "GET", 
+                url: myUrl + "/personsSize", 
+                contentType: "application/json; charset=utf-8", 
+                dataType: "json", }) 
+                .done(function(msg) {  
+                    cleanList();
+                    alert("Databse contains: " + msg.size + " objects");
+                    
+                    }) 
+                .fail(function(xhr) {
+                    if (xhr.responseText) {
+                      try {
+                        var err = JSON.parse(xhr.responseText);
+                        alert("Error: " + xhr.status + " - " + err.detail);
+                      } catch (e) {
+                        console.error("Error parsing JSON response:", e);
+                        alert("Unexpected response from the server.");
+                      }
+                    } else {
+                      alert("Error: No response received from the server. Status code: " + xhr.status);
+                    }
+                });
+        }
+		
+		function getAuthors(){
+			var representation = $("input[type='radio'][name='representation']:checked").val();
+			
+			$.ajax({ 
+                type: "GET", 
+                url: myUrl + "/authors", 
+                contentType: "application/json; charset=utf-8", 
+                dataType: representation, }) 
+                .done(function(msg) {  
+					console.log(msg);
+					if(representation == "xml"){
+                        var obj = $(msg).find("EntityModel");
+						msg = {};
+                        msg.authors = obj.find('authors').text();
+                    }
+                    alert(msg.authors);
+                    }) 
+                .fail(function(xhr) {
+                    if (xhr.responseText) {
+                      try {
+                        var err = JSON.parse(xhr.responseText);
+                        alert("Error: " + xhr.status + " - " + err.detail);
+                      } catch (e) {
+                        console.error("Error parsing JSON response:", e);
+                        alert("Unexpected response from the server.");
+                      }
+                    } else {
+                      alert("Error: No response received from the server. Status code: " + xhr.status);
+                    }
+                });
+		}
+
+        function cleanList(){
+            var ul = document.getElementById("result");
+            ul.innerHTML = "";
+        }
+
+        function addPerson(id, name, age, email, _links) {
+            var ul = document.getElementById("result");
+            var li = document.createElement("li");
+            li.appendChild(document.createTextNode(id));
+            li.appendChild(document.createElement('br'));
+            li.appendChild(document.createTextNode(name));
+            li.appendChild(document.createElement('br'));
+            li.appendChild(document.createTextNode(age));
+            li.appendChild(document.createElement('br'));
+            li.appendChild(document.createTextNode(email));
+            li.appendChild(document.createElement('br'));
+            
+            // var a = createLink("delete", _links.delete.href);
+            // li.appendChild(a);
+
+            ul.appendChild(li);
+        }
+
+        function createLink(description, link){
+            var a = document.createElement('a');
+            var linkText = document.createTextNode(description);
+            a.appendChild(linkText);
+            a.href = link;
+            return a;
+        }
+
+
+        function processXMLCollection(xml){
+            var collection = [];
+            
+            
+            var obj = $(xml).find("content").find("content");
+            
+            for(var i=0; i < obj.length; i++){
+                var item = processXML($(obj[i]));
+
+                collection.push(item);
+            }
+                
+            
+            return collection;
+        }
+
+       function processXML(obj){
+            var item = {};
+            
+            item.id = obj.find('id').text();
+            item.name = obj.find('name').text();
+            item.age = obj.find('age').text();
+            item.email = obj.find('email').text();
+
+            return item;
+       }
+
+    </script>
+
+    <script>
+        // changing the colors
+        $(document).ready(function() {
+        $(".button").hover(
+            function() {
+                var inputIds = $(this).data("inputs").split(", ");
+                inputIds.forEach(function(inputId) {
+                    $("#" + inputId).addClass("green");
+                });
+            },
+            function() {
+                var inputIds = $(this).data("inputs").split(", ");
+                inputIds.forEach(function(inputId) {
+                $("#" + inputId).removeClass("green");
+                 });
+        });
+    });
+
+      
+    </script>
+</body>
+</html>

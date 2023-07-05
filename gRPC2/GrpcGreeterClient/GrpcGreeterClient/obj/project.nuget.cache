@@ -1,0 +1,16 @@
+{
+  "version": 2,
+  "dgSpecHash": "vgyYIi5FCepW3faHwKKHiEEpy0jZQ/u5txft8JZu+ff12wC3JeqqM3WhpH7LCjY9ha9YINV7mIt3ukCLWLmZEw==",
+  "success": true,
+  "projectFilePath": "C:\\Users\\wojte\\Desktop\\DuplexStreaming\\GrpcGreeterClient\\GrpcGreeterClient.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\wojte\\Desktop\\.nuget\\packages\\google.protobuf\\3.22.1\\google.protobuf.3.22.1.nupkg.sha512",
+    "C:\\Users\\wojte\\Desktop\\.nuget\\packages\\grpc.core.api\\2.51.0\\grpc.core.api.2.51.0.nupkg.sha512",
+    "C:\\Users\\wojte\\Desktop\\.nuget\\packages\\grpc.net.client\\2.51.0\\grpc.net.client.2.51.0.nupkg.sha512",
+    "C:\\Users\\wojte\\Desktop\\.nuget\\packages\\grpc.net.common\\2.51.0\\grpc.net.common.2.51.0.nupkg.sha512",
+    "C:\\Users\\wojte\\Desktop\\.nuget\\packages\\grpc.tools\\2.52.0\\grpc.tools.2.52.0.nupkg.sha512",
+    "C:\\Users\\wojte\\Desktop\\.nuget\\packages\\microsoft.extensions.logging.abstractions\\3.0.3\\microsoft.extensions.logging.abstractions.3.0.3.nupkg.sha512",
+    "C:\\Users\\wojte\\Desktop\\.nuget\\packages\\system.memory\\4.5.3\\system.memory.4.5.3.nupkg.sha512"
+  ],
+  "logs": []
+}

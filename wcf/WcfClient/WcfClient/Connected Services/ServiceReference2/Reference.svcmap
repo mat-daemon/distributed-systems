@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ReferenceGroup xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ID="bd0ec334-65bb-4005-a436-da4b94ef7918" xmlns="urn:schemas-microsoft-com:xml-wcfservicemap">
+  <ClientOptions>
+    <GenerateAsynchronousMethods>false</GenerateAsynchronousMethods>
+    <GenerateTaskBasedAsynchronousMethod>true</GenerateTaskBasedAsynchronousMethod>
+    <EnableDataBinding>true</EnableDataBinding>
+    <ExcludedTypes />
+    <ImportXmlTypes>false</ImportXmlTypes>
+    <GenerateInternalTypes>false</GenerateInternalTypes>
+    <GenerateMessageContracts>false</GenerateMessageContracts>
+    <NamespaceMappings />
+    <CollectionMappings />
+    <GenerateSerializableTypes>true</GenerateSerializableTypes>
+    <Serializer>Auto</Serializer>
+    <UseSerializerForFaults>true</UseSerializerForFaults>
+    <ReferenceAllAssemblies>true</ReferenceAllAssemblies>
+    <ReferencedAssemblies />
+    <ReferencedDataContractTypes />
+    <ServiceContractMappings />
+  </ClientOptions>
+  <MetadataSources>
+    <MetadataSource Address="http://10.182.101.87:1000/MyCalculator" Protocol="http" SourceId="1" />
+  </MetadataSources>
+  <Metadata>
+    <MetadataFile FileName="MyCalculator.xsd" MetadataType="Schema" ID="e261f041-020a-43a7-b6af-37693e3e33b3" SourceId="1" SourceUrl="http://10.182.101.87:1000/MyCalculator?xsd=xsd2" />
+    <MetadataFile FileName="MyCalculator1.xsd" MetadataType="Schema" ID="7743d40b-1d0b-4244-bb2c-a0c6b0946555" SourceId="1" SourceUrl="http://10.182.101.87:1000/MyCalculator?xsd=xsd1" />
+    <MetadataFile FileName="MyCalculator2.xsd" MetadataType="Schema" ID="7b49a771-f2ca-4ee9-8774-fbee16dac7db" SourceId="1" SourceUrl="http://10.182.101.87:1000/MyCalculator?xsd=xsd0" />
+    <MetadataFile FileName="MyCalculator.wsdl" MetadataType="Wsdl" ID="1f878af2-f554-4358-a558-7882d7d22fee" SourceId="1" SourceUrl="http://10.182.101.87:1000/MyCalculator?wsdl" />
+    <MetadataFile FileName="MyCalculator.disco" MetadataType="Disco" ID="550a9b0c-37f7-4ff5-995f-d6938edfe658" SourceId="1" SourceUrl="http://10.182.101.87:1000/MyCalculator?disco" />
+  </Metadata>
+  <Extensions>
+    <ExtensionFile FileName="configuration91.svcinfo" Name="configuration91.svcinfo" />
+    <ExtensionFile FileName="configuration.svcinfo" Name="configuration.svcinfo" />
+  </Extensions>
+</ReferenceGroup>

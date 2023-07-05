@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.33130.400
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GrpcDistanceServer", "GrpcDistanceServer.csproj", "{2B1C2F3D-772C-46A2-834F-290755CB6C6C}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{2B1C2F3D-772C-46A2-834F-290755CB6C6C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2B1C2F3D-772C-46A2-834F-290755CB6C6C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2B1C2F3D-772C-46A2-834F-290755CB6C6C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2B1C2F3D-772C-46A2-834F-290755CB6C6C}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {1362FC3A-E5D1-46B1-96CB-A1A5AD0BB1E6}
+	EndGlobalSection
+EndGlobal

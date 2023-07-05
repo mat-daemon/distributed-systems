@@ -1,0 +1,18 @@
+syntax = "proto3";
+
+option csharp_namespace = "GrpcImageServer";
+
+package imageSending;
+
+
+service ImageTransfer {
+  rpc Transfer (stream RequestChunk) returns (stream ResponseChunk);
+}
+
+message RequestChunk {
+  bytes chunk = 1;
+}
+
+message ResponseChunk {
+  bytes chunk = 1;
+}

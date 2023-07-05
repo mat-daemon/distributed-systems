@@ -1,0 +1,2 @@
+obj\Debug\net5.0\Protos/Transfer.cs \
+obj\Debug\net5.0\Protos/TransferGrpc.cs: Protos/transfer.proto

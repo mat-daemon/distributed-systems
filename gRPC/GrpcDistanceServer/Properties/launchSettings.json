@@ -1,0 +1,13 @@
+﻿{
+  "profiles": {
+    "GrpcDistanceServer": {
+      "commandName": "Project",
+      "dotnetRunMessages": "true",
+      "launchBrowser": false,
+      "applicationUrl": "http://10.182.216.154:5000;https://10.182.216.154:5001",
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      }
+    }
+  }
+}

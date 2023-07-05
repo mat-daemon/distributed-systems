@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.4.33403.182
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RabbitSender", "RabbitSender.csproj", "{13743640-2F0E-452A-AED7-CBD85582297B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RabbitSender2", "..\RabbitSender2\RabbitSender2.csproj", "{1F954BFA-B674-41D9-AB00-A38D469B822D}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{13743640-2F0E-452A-AED7-CBD85582297B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{13743640-2F0E-452A-AED7-CBD85582297B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{13743640-2F0E-452A-AED7-CBD85582297B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{13743640-2F0E-452A-AED7-CBD85582297B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1F954BFA-B674-41D9-AB00-A38D469B822D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1F954BFA-B674-41D9-AB00-A38D469B822D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1F954BFA-B674-41D9-AB00-A38D469B822D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1F954BFA-B674-41D9-AB00-A38D469B822D}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {E37BAA2A-14E2-4F4D-B19E-0F52B93F930D}
+	EndGlobalSection
+EndGlobal
